@@ -1,0 +1,635 @@
+CREATE TABLE ECHIPA(
+id_echipa number(4) constraint pk_id_echipa primary key,
+nume_echipa varchar2(30) constraint null_nume_echipa not null,
+an_infiintare number(4) constraint null_an_infiintare not null,
+buget number(9) constraint null_buget not null,
+constraint ck_buget check(buget>0),
+constraint ck_an_infiintare check(an_infiintare>0)
+);
+
+---Echipe inserate--------------------------------
+INSERT INTO ECHIPA
+values('1', 'Rapid Bucuresti', 1923, 7000000);
+INSERT INTO ECHIPA
+values('2', 'Dinamo Bucuresti', 1948, 6500000);
+INSERT INTO ECHIPA
+values('3', 'Steaua Bucuresti', 1947, 9000000);
+INSERT INTO ECHIPA
+values('4', 'FC Arges', 1924, 4000000);
+INSERT INTO ECHIPA 
+values('5', 'Viitorul Constanta', 2009, 4400000);
+INSERT INTO ECHIPA
+values('6', 'Universitatea Craiova', 1948, 6100000);
+INSERT INTO ECHIPA
+values('7', 'Universitatea Cluj', 1919, 3900000);
+INSERT INTO ECHIPA
+values('8', 'CFR Cluj', 1907, 7500000);
+INSERT INTO ECHIPA
+values('9', 'Botosani', 2001, 2800000);
+INSERT INTO ECHIPA
+values('10', 'Petrolul Ploiesti', 1924, 3300000);
+INSERT INTO ECHIPA
+values('11', 'Astra Giurgiu', 1955, 5000000);
+INSERT INTO ECHIPA
+values('12', 'Otelul Galati', 1964, 3900000);
+INSERT INTO ECHIPA
+values('13', 'Mioveni', 2000, 2500000);
+
+
+
+
+---Stadionm
+CREATE TABLE STADION(
+id_stadion number(4) constraint pk_id_stadion primary key,
+nume_stadion varchar2(35) constraint null_nume_stadion not null,
+numar_locuri number(6) constraint null_numar_locuri not null,
+constraint ck_numar_locuri check(numar_locuri>0)
+);
+
+
+
+---Stadioane insertate--------------------------------
+INSERT INTO STADION
+values('1','Arena Nationala', 55000);
+INSERT INTO STADION
+values('2', 'Stadionul Rapid-Giulesti', 14000);
+INSERT INTO STADION
+values('3', 'Stadionul Ghencea', 31000);
+INSERT INTO STADION
+values('4', 'Stadionul Ion-Oblemenco', 30000);
+INSERT INTO STADION
+values('5', 'Cluj Arena', 30200);
+INSERT INTO STADION
+values('6', 'Stadionul Stefan cel Mare', 15000);
+INSERT INTO STADION
+values('7', 'Stadionul Nicolae Dobrin', 15200);
+INSERT INTO STADION
+values('8', 'Stadionul Otelul', 13000);
+INSERT INTO STADION 
+values('9', 'Stadionul Orasenesc', 10000);
+INSERT INTO STADION 
+values('10', 'Stadionul Municipal', 7000);
+INSERT INTO STADION
+values('11', 'Stadionul Ilie Oana', 15000);
+INSERT INTO STADION
+values('12', 'Stadionul Farul', 15500);
+INSERT INTO STADION
+values('13', 'Stadionul Dunarea', 8000);
+
+---ORAS
+CREATE TABLE ORAS(
+id_oras number(4) constraint pk_id_oras primary key,
+nume varchar2(20) constraint null_nume not null
+);
+
+
+---Orase inserate-------------------------
+INSERT INTO ORAS
+values('1', 'Bucuresti');
+INSERT INTO ORAS
+values('2', 'Constanta');
+INSERT INTO ORAS
+values('3', 'Cluj');
+INSERT INTO ORAS
+values('4', 'Craiova');
+INSERT INTO ORAS
+values('5', 'Pitesti');
+INSERT INTO ORAS
+values('6', 'Mioveni');
+INSERT INTO ORAS
+values('7', 'Galati');
+INSERT INTO ORAS
+values('8', 'Botosani');
+INSERT INTO ORAS
+values('9', 'Sibiu');
+
+
+---SPONSOR
+CREATE TABLE SPONSOR(
+id_sponsor number(4) constraint pk_id_sponsor primary key,
+nume_sponsor varchar2(20) constraint null_nume_sponsor not null
+);
+
+---Sponsori inserati------------------------------------------
+INSERT INTO SPONSOR
+values('1', 'Nike');
+INSERT INTO SPONSOR
+values('2', 'Betano');
+INSERT INTO SPONSOR
+values('3', 'PENNY');
+INSERT INTO SPONSOR
+values('4', 'Qatar Airways');
+INSERT INTO SPONSOR
+values('5', 'Ferroli');
+INSERT INTO SPONSOR
+values('6', 'City Insurance');
+INSERT INTO SPONSOR
+values('7', 'Adidas');
+INSERT INTO SPONSOR
+values('8', 'Puma');
+
+
+---MECI
+CREATE TABLE MECI(
+id_meci number(4),
+id_echipaGazda number(4),
+id_echipaOaspete number (4),
+id_stadion number (4),
+data date,
+constraint pk_id_meci primary key(id_meci),
+constraint fk_id_echipaGazda foreign key(id_echipaGazda) references echipa(id_echipa),
+constraint fk_id_echipaOaspete foreign key(id_echipaOaspete) references echipa(id_echipa),
+constraint fk_id_stadion foreign key(id_stadion) references stadion(id_stadion)
+);
+
+SELECT * FROM MECI;
+
+INSERT INTO MECI
+values('1', '4', '10', '7', to_date('20-08-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('2', '12', '5', '13', to_date('20-08-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('3', '9', '2', '10', to_date('26-08-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('4', '1', '2', '2', to_date('26-08-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('5', '3', '7', '3', to_date('02-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('6', '8', '6', '5', to_date('06-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('7', '13', '11', '9', to_date('07-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('8', '6', '3', '4', to_date('10-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('9', '5', '11', '12', to_date('13-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('10', '1', '3', '2', to_date('22-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('11', '2', '10', '6', to_date('22-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('12', '4', '7', '7', to_date('23-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('13', '10', '9', '11', to_date('24-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('14', '8', '7', '5', to_date('26-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('15', '13', '2', '9', to_date('26-08-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('16', '12', '3', '13', to_date('27-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('17', '6', '1', '7', to_date('28-09-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('18', '10', '8', '11', to_date('03-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('19', '5', '2', '12', to_date('03-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('20', '3', '6', '1', to_date('03-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('21', '9', '13', '10', to_date('06-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('22', '11', '1', '1', to_date('11-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('23', '8', '7', '5', to_date('22-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('24', '3', '1', '1', to_date('23-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('25', '5', '10', '12', to_date('24-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('26', '7', '3', '5', to_date('25-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('27', '12', '2', '8', to_date('25-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('28', '5', '4', '12', to_date('27-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('29', '13', '1', '9', to_date('27-10-2021', 'dd-mm-yyyy'));
+INSERT INTO MECI
+values('30', '1', '3', '2', to_date('05-11-2021', 'dd-mm-yyyy'));
+
+CREATE TABLE ANGAJAT(
+id_angajat number(4) constraint pk_id_angajat primary key,
+id_echipa number(4),
+nume varchar2(20) constraint null_nume_angajat not null,
+prenume varchar2(20) constraint null_prenume_angajat not null,
+varsta number(2) constraint null_varsta_angajat not null,
+salariu number(9) constraint null_salariu_angajat not null,
+constraint fk_id_echipa_angajat foreign key (id_echipa) references echipa(id_echipa)
+);
+
+---Angajati inserati---------------------------------------------
+INSERT INTO ANGAJAT
+values ('1', '4', 'Ionescu', 'Darius', 22, 5000);
+INSERT INTO ANGAJAT
+values ('2', '4', 'Stanciu', 'Andrei', 30, 8000);
+INSERT INTO ANGAJAT
+values ('3', '4', 'Rada', 'Marius', 32, 7000);
+INSERT INTO ANGAJAT
+values ('4', '4', 'Cristea', 'Eugen', 20, 2000);
+INSERT INTO ANGAJAT
+values ('5', '4', 'Manole', 'Paul', 18, 1000);
+INSERT INTO ANGAJAT
+values ('72', '4', 'Turcu', 'Vasile', 26, 3450);
+INSERT INTO ANGAJAT
+values ('73', '4', 'Stoica', 'Andrei', 18, 2700);
+INSERT INTO ANGAJAT
+values ('6', '1', 'Tamas', 'Cosmin', 26, 2200);
+INSERT INTO ANGAJAT
+values ('7', '1', 'Diaconescu', 'Alexandru', 36, 1500);
+INSERT INTO ANGAJAT
+values ('8', '1', 'Popescu', 'Vlad', 21, 2230);
+INSERT INTO ANGAJAT
+values ('9', '1', 'Ungureanu', 'Valentin', 30, 3200);
+INSERT INTO ANGAJAT
+values ('74', '1', 'Constantin', 'Marius', 23, 1200);
+INSERT INTO ANGAJAT
+values ('75', '1', 'Florea', 'Valentin', 29, 4300);
+INSERT INTO ANGAJAT
+values ('10', '2', 'Dumitrescu', 'Stefan', 19, 800);
+INSERT INTO ANGAJAT
+values ('11', '2', 'Nitu', 'Nicolae', 17, 600);
+INSERT INTO ANGAJAT
+values ('12', '2', 'Matei', 'Victor', 24, 1200);
+INSERT INTO ANGAJAT
+values ('13', '2', 'Stan', 'Eugen', 19, 1000);
+INSERT INTO ANGAJAT
+values ('14', '2', 'Ionescu', 'Darius', 28, 4000);
+INSERT INTO ANGAJAT
+values ('76', '2', 'Lazar', 'Stefan', 20, 2500);
+INSERT INTO ANGAJAT
+values ('15', '3', 'Dobre', 'Iulian', 27, 2000);
+INSERT INTO ANGAJAT
+values ('16', '3', 'Popa', 'Alfred', 25, 1700);
+INSERT INTO ANGAJAT
+values ('17', '3', 'Ciobanu', 'Mirel', 20, 1100);
+INSERT INTO ANGAJAT
+values ('18', '3', 'Aurelian', 'Dragos', 23, 2000);
+INSERT INTO ANGAJAT
+values ('19', '3', 'Georgescu', 'Nicolae', 35, 1200);
+INSERT INTO ANGAJAT
+values ('20', '5', 'Dinescu', 'Anton', 30, 6600);
+INSERT INTO ANGAJAT
+values ('21', '5', 'Iancu', 'Andrei', 34, 3200);
+INSERT INTO ANGAJAT
+values ('22', '5', 'Andreescu', 'Florin', 23, 1400);
+INSERT INTO ANGAJAT
+values ('23', '5', 'Stanciu', 'Dragos', 29, 1660);
+INSERT INTO ANGAJAT
+values ('24', '5', 'Rusu', 'Valeriu', 29, 2200);
+INSERT INTO ANGAJAT
+values ('25', '5', 'Dragos', 'Codrut', 27, 1900);
+INSERT INTO ANGAJAT
+values ('26', '6', 'Tomescu', 'George', 28, 4400);
+INSERT INTO ANGAJAT
+values ('27', '6', 'Petrescu', 'Cristi', 30, 2000);
+INSERT INTO ANGAJAT
+values ('28', '6', 'Lupu', 'Dragos', 25, 1700);
+INSERT INTO ANGAJAT
+values ('29', '6', 'Stoica', 'Mirel', 29, 2400);
+INSERT INTO ANGAJAT
+values ('30', '6', 'Popescu', 'Paul', 18, 3300);
+INSERT INTO ANGAJAT
+values ('31', '6', 'Toma', 'Mirel', 22, 2400);
+INSERT INTO ANGAJAT
+values ('32', '7', 'Barbu', 'Lucian', 28, 1240);
+INSERT INTO ANGAJAT
+values ('33', '7', 'Mocanu', 'Emanuel', 34, 2500);
+INSERT INTO ANGAJAT
+values ('34', '7', 'Sava', 'Vicentiu', 18, 1200);
+INSERT INTO ANGAJAT
+values ('35', '7', 'Iancu', 'Laurentiu', 19, 900);
+INSERT INTO ANGAJAT
+values ('36', '7', 'Ghita', 'Gabriel', 20, 3400);
+INSERT INTO ANGAJAT
+values ('77', '7', 'Ionita', 'Nicolae', 27, 1100);
+INSERT INTO ANGAJAT
+values ('37', '8', 'Teodorescu', 'Iulian', 22, 600);
+INSERT INTO ANGAJAT
+values ('38', '8', 'Voinea', 'Codrut', 28, 2230);
+INSERT INTO ANGAJAT
+values ('39', '8', 'Dragomir', 'Alexandru', 22, 5000);
+INSERT INTO ANGAJAT
+values ('40', '8', 'Alecu', 'Florin', 22, 3300);
+INSERT INTO ANGAJAT
+values ('41', '8', 'Dima', 'Mihai', 22, 5000);
+INSERT INTO ANGAJAT
+values ('78', '8', 'Stroie', 'Alexandru', 24, 9000);
+INSERT INTO ANGAJAT
+values ('42', '9', 'Florea', 'Cristian', 17, 860);
+INSERT INTO ANGAJAT
+values ('43', '9', 'Stanescu', 'Bogdan', 20, 1900);
+INSERT INTO ANGAJAT
+values ('44', '9', 'Muresan', 'Andrei', 27, 4000);
+INSERT INTO ANGAJAT
+values ('45', '9', 'Lupu', 'Alberto', 27, 3200);
+INSERT INTO ANGAJAT
+values ('46', '9', 'Stoica', 'Matei', 29, 3100);
+INSERT INTO ANGAJAT
+values ('79', '9', 'Stan', 'Florin', 20, 3000);
+INSERT INTO ANGAJAT
+values ('47', '10', 'Mihailescu', 'Radu', 32, 3000);
+INSERT INTO ANGAJAT
+values ('48', '10', 'Tomescu', 'Alexandru', 36, 2400);
+INSERT INTO ANGAJAT
+values ('49', '10', 'David', 'Ionut', 35, 5500);
+INSERT INTO ANGAJAT
+values ('50', '10', 'Tamas', 'Lucian', 38, 3400);
+INSERT INTO ANGAJAT
+values ('80', '10', 'Olteanu', 'Cristian', 25, 2000);
+INSERT INTO ANGAJAT
+values ('51', '11', 'Idor', 'Bogdan', 26, 3230);
+INSERT INTO ANGAJAT
+values ('52', '11', 'Ghita', 'Vasile', 20, 3500);
+INSERT INTO ANGAJAT
+values ('53', '11', 'Barbu', 'Grigore', 26, 4000);
+INSERT INTO ANGAJAT
+values ('54', '11', 'Ionescu', 'Stefan', 24, 6000);
+INSERT INTO ANGAJAT
+values ('55', '11', 'Moldoveanu', 'Emanuel', 27, 1000);
+INSERT INTO ANGAJAT
+values ('56', '12', 'Pop', 'Laurentiu', 28, 1200);
+INSERT INTO ANGAJAT
+values ('57', '12', 'Popescu', 'Ionut', 26, 6000);
+INSERT INTO ANGAJAT
+values ('58', '12', 'Petrescu', 'Nicolae', 20, 2300);
+INSERT INTO ANGAJAT
+values ('59', '12', 'Nistor', 'Dan', 28, 8700);
+INSERT INTO ANGAJAT
+values ('60', '12', 'Calinescu', 'Catalin', 17, 650);
+INSERT INTO ANGAJAT
+values ('61', '13', 'Stanescu', 'Dorin', 26, 6700);
+INSERT INTO ANGAJAT
+values('62', '11', 'Sorescu', 'Mihai', 29, 4400);
+INSERT INTO ANGAJAT
+values('63', '12', 'Cristea', 'Dorian', 33, 6000);
+INSERT INTO ANGAJAT
+values('64', '13', 'Iulian', 'Catalin', 30, 2400);
+INSERT INTO ANGAJAT
+values('65', '13', 'Constantinescu', 'Madalin', 17, 1000);
+INSERT INTO ANGAJAT
+values('66', '13', 'Tudor', 'Vlad', 29, 5200);
+INSERT INTO ANGAJAT
+values('67', '13', 'Moldoveanu', 'Laurentiu', 21, 1500);
+INSERT INTO ANGAJAT
+values('68', '13', 'Popescu', 'Octavian', 30, 5800);
+INSERT INTO ANGAJAT
+values('69', '13', 'Stefanescu', 'Gabriel', 32, 3900);
+INSERT INTO ANGAJAT
+values('70', '13', 'Cristescu', 'Dorin', 27, 4000);
+INSERT INTO ANGAJAT
+values('71', '13', 'Toma', 'Eduard', 24, 8000);
+
+
+
+ 
+CREATE TABLE SPONSORIZEAZA(
+id_sponsor number(4),
+id_echipa number(4),
+suma number(9,2),
+constraint pk_sponsorizeaza primary key (id_sponsor,id_echipa),
+constraint fk_id_sponsor_sponsorizeaza foreign key (id_sponsor) references sponsor(id_sponsor),
+constraint fk_id_echipa_sponsorizeaza  foreign key (id_echipa) references echipa(id_echipa)
+);
+
+SELECT * FROM SPONSORIZEAZA
+
+INSERT INTO SPONSORIZEAZA
+values(5, 1, 750000)
+INSERT INTO SPONSORIZEAZA
+values(4, 2, 800000)
+INSERT INTO SPONSORIZEAZA
+values(1, 3, 1500000)
+INSERT INTO SPONSORIZEAZA
+values(8, 4, 620000)
+INSERT INTO SPONSORIZEAZA
+values(6, 5, 550000)
+INSERT INTO SPONSORIZEAZA
+values(2, 6, 700000)
+INSERT INTO SPONSORIZEAZA
+values(3, 7, 600000)
+INSERT INTO SPONSORIZEAZA
+values(3, 8, 700000)
+INSERT INTO SPONSORIZEAZA
+values(3, 9, 250000)
+INSERT INTO SPONSORIZEAZA
+values(8, 10, 500000)
+INSERT INTO SPONSORIZEAZA
+values(7, 11, 630000)
+INSERT INTO SPONSORIZEAZA
+values(2, 12, 680000)
+INSERT INTO SPONSORIZEAZA
+values(2, 13, 400000)
+
+
+CREATE TABLE JUCATOR(
+id_angajat number(4),
+post varchar2(20) constraint null_post not null,
+constraint pk_jucator primary key(id_angajat),
+constraint fk_id_angajat_jucator foreign key(id_angajat) references ANGAJAT(id_angajat),
+constraint ck_id_angajat_jucator check(id_angajat>0)
+);
+
+SELECT * FROM JUCATOR
+INSERT INTO JUCATOR
+values (6, 'portar')
+INSERT INTO JUCATOR
+values (7, 'fundas')
+INSERT INTO JUCATOR
+values (8, 'atacant')
+INSERT INTO JUCATOR
+values (9, 'portar')
+INSERT INTO JUCATOR
+values (74, 'mijlocas')
+INSERT INTO JUCATOR
+values (75, 'mijlocas')
+
+INSERT INTO JUCATOR
+values (10, 'portar')
+INSERT INTO JUCATOR
+values (11, 'fundas')
+INSERT INTO JUCATOR
+values (12, 'mijlocas')
+INSERT INTO JUCATOR
+values (14, 'atacant')
+INSERT INTO JUCATOR
+values (76, 'fundas')
+
+INSERT INTO JUCATOR
+values (15, 'portar')
+INSERT INTO JUCATOR
+values (16, 'atacant')
+INSERT INTO JUCATOR
+values (17, 'atacant')
+INSERT INTO JUCATOR
+values (18, 'mijlocas')
+INSERT INTO JUCATOR
+values (19, 'fundas')
+
+INSERT INTO JUCATOR
+values (1, 'portar')
+INSERT INTO JUCATOR
+values (3, 'fundas')
+INSERT INTO JUCATOR
+values (4, 'fundas')
+INSERT INTO JUCATOR
+values (5, 'mijlocas')
+INSERT INTO JUCATOR
+values (72, 'mijlocas')
+INSERT INTO JUCATOR
+values (73, 'atacant')
+
+INSERT INTO JUCATOR
+values (20, 'portar')
+INSERT INTO JUCATOR
+values (21, 'atacant')
+INSERT INTO JUCATOR
+values (22, 'atacant')
+INSERT INTO JUCATOR
+values (23, 'mijlocas')
+INSERT INTO JUCATOR
+values (25, 'fundas')
+
+INSERT INTO JUCATOR
+values (26, 'portar')
+INSERT INTO JUCATOR
+values (27, 'portar')
+INSERT INTO JUCATOR
+values (28, 'fundas')
+INSERT INTO JUCATOR
+values (29, 'mijlocas')
+INSERT INTO JUCATOR
+values (30, 'mijlocas')
+INSERT INTO JUCATOR
+values (31, 'atacant')
+
+INSERT INTO JUCATOR
+values (32, 'portar')
+INSERT INTO JUCATOR
+values (33, 'mijlocas')
+INSERT INTO JUCATOR
+values (34, 'mijlocas')
+INSERT INTO JUCATOR
+values (35, 'atacant')
+INSERT INTO JUCATOR
+values (36, 'fundas')
+INSERT INTO JUCATOR
+values (77, 'atacant')
+
+INSERT INTO JUCATOR
+values (37, 'portar')
+INSERT INTO JUCATOR
+values (38, 'mijlocas')
+INSERT INTO JUCATOR
+values (39, 'atacant')
+INSERT INTO JUCATOR
+values (41, 'atacant')
+INSERT INTO JUCATOR
+values (78, 'fundas')
+
+INSERT INTO JUCATOR
+values (42, 'portar')
+INSERT INTO JUCATOR
+values (44, 'mijlocas')
+INSERT INTO JUCATOR
+values (45, 'mijlocas')
+INSERT INTO JUCATOR
+values (46, 'atacant')
+INSERT INTO JUCATOR
+values (79, 'fundas')
+
+INSERT INTO JUCATOR
+values (47, 'portar')
+INSERT INTO JUCATOR
+values (48, 'fundas')
+INSERT INTO JUCATOR
+values (50, 'mijlocas')
+INSERT INTO JUCATOR
+values (49, 'atacant')
+INSERT INTO JUCATOR
+values (80, 'atacant')
+
+INSERT INTO JUCATOR
+values (51, 'portar')
+INSERT INTO JUCATOR
+values (52, 'atacant')
+INSERT INTO JUCATOR
+values (53, 'mijlocas')
+INSERT INTO JUCATOR
+values (54, 'mijlocas')
+INSERT INTO JUCATOR
+values (55, 'fundas')
+
+INSERT INTO JUCATOR
+values (56, 'portar')
+INSERT INTO JUCATOR
+values (57, 'atacant')
+INSERT INTO JUCATOR
+values (58, 'mijlocas')
+INSERT INTO JUCATOR
+values (59, 'mijlocas')
+INSERT INTO JUCATOR
+values (60, 'fundas')
+
+INSERT INTO JUCATOR
+values (64, 'portar')
+INSERT INTO JUCATOR
+values (65, 'portar')
+INSERT INTO JUCATOR
+values (66, 'fundas')
+INSERT INTO JUCATOR
+values (67, 'fundas')
+INSERT INTO JUCATOR
+values (68, 'mijlocas')
+INSERT INTO JUCATOR
+values (69, 'mijlocas')
+INSERT INTO JUCATOR
+values (70, 'atacant')
+INSERT INTO JUCATOR
+values (71, 'atacant')
+
+CREATE TABLE ANTRENOR(
+id_angajat number(4),
+experienta varchar2(20) constraint null_experienta not null,
+constraint pk_antrenor primary key(id_angajat),
+constraint fk_id_angajat_antrenor foreign key(id_angajat) references ANGAJAT(id_angajat),
+constraint ck_id_angajat_antrenor check(id_angajat>0)
+);
+
+SELECT * FROM ANTRENOR
+
+INSERT INTO ANTRENOR
+values ('2', '4');
+
+INSERT INTO ANTRENOR
+values('9', '7');
+
+INSERT INTO ANTRENOR
+values('13', '2');
+
+INSERT INTO ANTRENOR
+values('18', '1');
+
+INSERT INTO ANTRENOR
+values('24', '8');
+
+INSERT INTO ANTRENOR
+values('30', '3');
+
+INSERT INTO ANTRENOR
+values('35', '6');
+
+INSERT INTO ANTRENOR
+values('40', '4');
+
+INSERT INTO ANTRENOR 
+values('43', '5');
+
+INSERT INTO ANTRENOR
+values('49', '7');
+
+INSERT INTO ANTRENOR
+values('55', '2');
+
+INSERT INTO ANTRENOR
+values('60', '3');
+
+INSERT INTO ANTRENOR
+values('61', '10');

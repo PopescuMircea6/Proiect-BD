@@ -1,0 +1,84 @@
+--11. Formulați în limbaj natural și implementați 5 cereri SQL complexe ce vor utiliza, în 
+-- ansamblul lor, următoarele elemente:
+
+-- grupări de date, funcții grup, filtrare la nivel de grupuri
+--Sa se afiseze cati angajati are fiecare echipa
+SELECT COUNT(id_angajat)
+FROM ANGAJAT
+GROUP BY id_echipa;
+
+
+-- ordonări
+--Sa se afiseze toti angajatii in ordine alfabetica dupa prenume
+SELECT * FROM ANGAJAT
+ORDER BY prenume;
+
+--Subcerere nesincronizata + functie siruri caractere
+--Sa se afiseze toti angajatii de la echipa CFR Cluj
+SELECT * FROM ANGAJAT
+WHERE id_echipa IN(select id_echipa
+FROM ECHIPA 
+WHERE (upper(nume_echipa) like('CFR CLUJ')));
+
+-- utilizarea a cel puțin 1 bloc de cerere (clauza WITH)
+--Sa se afiseze toate echipele care au un buget peste media generala
+WITH tabelnou(mediebuget) as
+(SELECT avg(buget)
+from ECHIPA)
+SELECT id_echipa,nume_echipa
+FROM ECHIPA, tabelnou
+WHERE echipa.buget > tabelnou.mediebuget;
+
+
+
+--a)Sa se afiseze antrenorii care au experienta mai mare de 7 ani
+SELECT angajat.id_angajat, angajat.nume, angajat.prenume, antrenor.experienta
+FROM angajat, antrenor
+WHERE angajat.id_angajat = antrenor.id_angajat
+AND antrenor.experienta > 7;
+
+
+
+
+
+
+
+-- 12. Implementarea a 3 operații de actualizare sau suprimare a datelor utilizând subcereri.
+--1) Sa se mareasca salariul cu 10% tuturor angajatilor care au salariul mai mic de 2000
+UPDATE ANGAJAT
+set salariu = salariu + salariu*0.1
+WHERE(salariu < 2000);
+SELECT * FROM ANGAJAT;
+ROLL BACK;
+
+
+--2) Stergem complet tabelul ORAS
+DROP TABLE ORAS;
+
+ROLL BACK;
+--3)
+
+SELECT * FROM ORAS
+--13. Sa se insereze inca 4 orase folosind secvente
+CREATE SEQUENCE id_oras
+start with 10
+increment by 1
+nocycle
+nocache;
+
+INSERT INTO ORAS
+values(id_oras.nextval, 'Oradea');
+INSERT INTO ORAS
+values(id_oras.nextval, 'Timisoara');
+INSERT INTO ORAS
+values(id_oras.nextval, 'Iasi');
+INSERT INTO ORAS
+values(id_oras.nextval, 'Sinaia');
+
+
+--14. Crearea unei vizualizări compuse. Dați un exemplu de operație LMD permisă pe 
+--vizualizarea respectivă și un exemplu de operație LMD nepermisă.
+CREATE OR REPLACE VIEW vizualizareMeciuri (id_stadion) AS 
+SELECT  'Meciul ' || id_meci || ' s-a jucat pe stadionul ' || id_stadion
+FROM MECI;
+SELECT * FROM vizualizareMeciuri;
